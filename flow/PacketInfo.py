@@ -1,6 +1,9 @@
 from scapy.layers.inet import IP, UDP, TCP
 import psutil
+<<<<<<< HEAD
 from psutil import NoSuchProcess, AccessDenied, ZombieProcess
+=======
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
 
 flags = {
@@ -43,6 +46,7 @@ class PacketInfo:
         self.pid = None
         self.p_name = ''
 
+<<<<<<< HEAD
     def _resolve_pid(self):
         """
         Определение PID и имени процесса по локальному порту.
@@ -72,6 +76,8 @@ class PacketInfo:
 
         except Exception:
             pass
+=======
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def setSrc(self, p):
         self.src = p.getlayer(IP).src
@@ -88,10 +94,22 @@ class PacketInfo:
     def setSrcPort(self, p):
         if p.haslayer(TCP):
             self.src_port = p.getlayer(TCP).sport
+<<<<<<< HEAD
         elif p.haslayer(UDP):
             self.src_port = p.getlayer(UDP).sport
 
         self._resolve_pid()
+=======
+        if p.haslayer(UDP):
+            self.src_port = p.getlayer(UDP).sport
+
+        if self.pid is None and self.p_name == '':
+            for con in connections:
+                if (con.laddr.port - self.src_port ==0.0) or (con.laddr.port - self.dest_port ==0.0):
+                    self.pid = con.pid
+                    self.p_name = psutil.Process(con.pid).name()
+
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def getSrcPort(self):
         return self.src_port
@@ -99,10 +117,22 @@ class PacketInfo:
     def setDestPort(self, p):
         if p.haslayer(TCP):
             self.dest_port = p.getlayer(TCP).dport
+<<<<<<< HEAD
         elif p.haslayer(UDP):
             self.dest_port = p.getlayer(UDP).dport
 
         self._resolve_pid()
+=======
+        if p.haslayer(UDP):
+            self.dest_port = p.getlayer(UDP).dport
+
+        if self.pid is None and self.p_name == '':
+            connections = psutil.net_connections()
+            for con in connections:
+                if (con.laddr.port - self.src_port ==0.0) or (con.laddr.port - self.dest_port ==0.0):
+                    self.pid = con.pid
+                    self.p_name = psutil.Process(con.pid).name()
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def getPID(self):
         return self.pid
@@ -116,7 +146,11 @@ class PacketInfo:
     def setProtocol(self, p):
         if p.haslayer(TCP):
             self.protocol = 'TCP'
+<<<<<<< HEAD
         elif p.haslayer(UDP):
+=======
+        if p.haslayer(UDP):
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
             self.protocol = 'UDP'
 
     def getProtocol(self):
@@ -191,7 +225,11 @@ class PacketInfo:
     def setPayloadBytes(self, p):
         if p.haslayer(TCP):
             self.payload_bytes = len(p[TCP].payload)
+<<<<<<< HEAD
         elif p.haslayer(UDP):
+=======
+        if p.haslayer(UDP):
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
             self.payload_bytes = len(p[UDP].payload)
 
     def getPayloadBytes(self):
@@ -200,7 +238,11 @@ class PacketInfo:
     def setHeaderBytes(self, p):
         if p.haslayer(TCP):
             self.header_bytes = len(p[TCP]) - len(p[TCP].payload)
+<<<<<<< HEAD
         elif p.haslayer(UDP):
+=======
+        if p.haslayer(UDP):
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
             self.header_bytes = len(p[UDP]) - len(p[UDP].payload)
 
     def getHeaderBytes(self):
@@ -209,7 +251,11 @@ class PacketInfo:
     def setPacketSize(self, p):
         if p.haslayer(TCP):
             self.packet_size = len(p[TCP])
+<<<<<<< HEAD
         elif p.haslayer(UDP):
+=======
+        if p.haslayer(UDP):
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
             self.packet_size = len(p[UDP])
 
     def getPacketSize(self):
@@ -217,12 +263,17 @@ class PacketInfo:
 
     def setWinBytes(self, p):
         if p.haslayer(TCP):
+<<<<<<< HEAD
             self.win_bytes = p[TCP].window
+=======
+            self.win_bytes = p[0].window
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def getWinBytes(self):
         return self.win_bytes
 
     def setFwdID(self):
+<<<<<<< HEAD
         self.fwd_id = (
             self.src + "-" +
             self.dest + "-" +
@@ -230,11 +281,16 @@ class PacketInfo:
             str(self.dest_port) + "-" +
             self.protocol
         )
+=======
+        self.fwd_id = self.src + "-" + self.dest + "-" + \
+                       str(self.src_port) + "-" + str(self.dest_port) + "-" + self.protocol
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def getFwdID(self):
         return self.fwd_id
 
     def setBwdID(self):
+<<<<<<< HEAD
         self.bwd_id = (
             self.dest + "-" +
             self.src + "-" +
@@ -242,6 +298,10 @@ class PacketInfo:
             str(self.src_port) + "-" +
             self.protocol
         )
+=======
+        self.bwd_id = self.dest + "-" + self.src + "-" + \
+                      str(self.dest_port) + "-" + str(self.src_port) + "-" + self.protocol
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
     def getBwdID(self):
         return self.bwd_id

@@ -51,7 +51,11 @@ def ipInfo(addr=''):
         return data['country']
     except Exception:
         return None
+<<<<<<< HEAD
 __author__ = 'Dmitiy'
+=======
+__author__ = 'hoang'
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
 
 
 app = Flask(__name__)
@@ -249,8 +253,13 @@ def newPacket(p):
         packet = PacketInfo()
         packet.setDest(p)
         packet.setSrc(p)
+<<<<<<< HEAD
         packet.setDestPort(p)
         packet.setSrcPort(p)
+=======
+        packet.setSrcPort(p)
+        packet.setDestPort(p)
+>>>>>>> 218f53b0512bf6c682ac94c45ca9e8fa81e351c9
         packet.setProtocol(p)
         packet.setTimestamp(p)
         packet.setPSHFlag(p)
